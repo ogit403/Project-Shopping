@@ -1,8 +1,33 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import styles from './NotifyScreenStyle'
+import { useDispatch, useSelector } from 'react-redux'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 
 const NotifyScreen = () => {
+    const isLogin = useSelector(state => state.User.isLogin)
+    const navigation = useNavigation();
+    // console.log(user)
+    const dispatch = useDispatch();
+    const isFocused = useIsFocused();
+    const [count, setCount] = useState(0);
+  
+    useLayoutEffect(() => {
+      setCount(count => count + 1);
+      if(isFocused){
+        if(!isLogin) {
+          if(count >= 3) {
+            navigation.navigate('HomeScreen')
+            navigation.pop();
+          }
+          else {
+            navigation.navigate('LoginHomeScreen')
+          }
+        }
+      } 
+    }, [isFocused])
+
+
   return (
     <View style={styles.container}>
        <Text style={styles.title}>Đánh dấu tất cả</Text>

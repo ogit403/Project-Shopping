@@ -38,10 +38,15 @@ const ProductCart = ({count, image, name, price, price_sale_off, id, rating, sum
       <Text style={styles.specialPriceSale}>{FormatPriceCoin(price)}</Text>
       <Text style={styles.specialPrice}>{FormatPriceCoin(price_sale_off)}</Text>
       <View style={styles.wrapNumber}>
-          <View style={styles.wrapButton}><TouchableOpacity onPress={() => countProduct('-')} style={styles.button}><Text>-</Text></TouchableOpacity></View>
+          <TouchableOpacity onPress={() => countProduct('-')} style={styles.wrapButton}>
+            <Text style={styles.button}>-</Text>
+          </TouchableOpacity>
           <Text style={styles.number}>{count}</Text>  
-          <View style={styles.wrapButton}><TouchableOpacity onPress={() => countProduct('+')} style={styles.button}><Text>+</Text></TouchableOpacity></View>
-      </View>
+
+          <TouchableOpacity onPress={() => countProduct('+')} style={styles.wrapButton}>
+            <Text style={styles.button}>+</Text>
+          </TouchableOpacity>
+        </View>
       <View style={styles.wrapPrice}>
         <View style={styles.wrap}>
           <Text>Thành tiền:</Text>

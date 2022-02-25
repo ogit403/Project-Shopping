@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     wrapImage: {
-        backgroundColor: COLORS.main2,
-        width: '85%',
+        // backgroundColor: COLORS.main2,
+        width: '100%',
         height: 180,
         borderRadius: 20,
         justifyContent: 'center',
@@ -21,14 +21,35 @@ const styles = StyleSheet.create({
     },
     iconImage: {
         position: 'absolute',
-        bottom: -5,
-        right: -5   
+        bottom: 5,
+        right: 5   
     },
     change: {
         position: 'absolute',
-        bottom: 10,
-        left: 15,
-        fontSize: 15
+        bottom: 0,
+        left: 0,
+        fontSize: 16,
+        fontWeight: '700',
+        backgroundColor: COLORS.main2,
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: 5,
+        color: COLORS.input
+    },
+    contentInput: {
+        borderColor: COLORS.main,
+        borderWidth: 1,
+        paddingHorizontal: 15,
+        paddingVertical: 6,
+        backgroundColor: 'transparent',
+        borderRadius: 5,
+        color: COLORS.input,
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
+    titleInput: {
+        marginBottom: 3,
+
     },
     log: {
         position: 'absolute',
@@ -44,7 +65,8 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     groupInput: {
-        marginBottom: 15
+        marginBottom: 15,
+        // paddingVertical: 
     },
     changePassword: {
         textAlign: 'right',
@@ -53,10 +75,11 @@ const styles = StyleSheet.create({
     },
     modal: {
         backgroundColor: COLORS.white,
-        marginVertical: 30,
         padding: 20,
-        // width: '90%',
-
+        width: '90%',
+        borderRadius: 10,
+        marginHorizontal: 20,
+        alignItems: 'center'
     },
     titleModal: {
         color: COLORS.main,
@@ -74,7 +97,8 @@ const styles = StyleSheet.create({
         borderRadius: 15
     },
     mainModal: {
-        marginVertical: 25
+        marginVertical: 25,
+        width: '100%'
     },
     inputModal: {
         marginBottom: 16

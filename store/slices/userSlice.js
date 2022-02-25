@@ -36,7 +36,7 @@ export const userSlice = createSlice({
       state.loadingUpdate = true;
     },
     updateInfoUserSuccess: (state, action) => {
-      state.loadingUpdate = true;
+      state.loadingUpdate = false;
     },
     getListOrderUser: (state, action) => {
       state.loadingOrder = true;

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     titleCategory: {
         textAlign: 'center',
         color: COLORS.text,
-        // fontFamily: 'Poppins',
+        fontFamily: 'Poppins',
         paddingTop: 4,
     },
 })

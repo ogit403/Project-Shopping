@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     },
    
     categoryTitle: {
-        // fontFamily: 'Poppins',
+        fontFamily: 'Poppins',
         fontSize: 18,
         marginBottom: 10
     },

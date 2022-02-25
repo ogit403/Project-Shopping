@@ -1,4 +1,4 @@
-import React , { useEffect, useState } from 'react'
+import React , { useContext, useEffect, useState } from 'react'
 import {DrawerContentScrollView,DrawerItem } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import { Drawer } from 'react-native-paper';
@@ -9,12 +9,15 @@ import { IMAGES , COLORS } from '../../contains'
 import styles from './DrawerScreenStyles'
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../store/slices/userSlice';
+import { AuthContext } from '../../navigation/AuthProvider';
 
 const DrawerContent = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const [active, setActive] = useState('Home');
     const token = useSelector(state => state.User.isLogin);
+    const {isDark, toggleTheme} = useContext(AuthContext);
+    console.log(isDark)
 
     const logOutUser = () => {
         dispatch(logoutUser())
@@ -50,7 +53,7 @@ const DrawerContent = () => {
                     label="Danh mục"
                     onPress={() => {
                         setActive('Gold')
-                        navigation.navigate('Gold')
+                        navigation.navigate('Category')
                     }}
                 />
                 <DrawerItem
@@ -62,21 +65,13 @@ const DrawerContent = () => {
                     label="Yêu thích"
                     onPress={() => {
                         setActive('Coin')
-                        navigation.navigate('Coin')
+                        navigation.navigate('Favorite')
                     }}
                 />
                 {
                     token ?
                     (<>
-                     <DrawerItem
-                    focused={active == "Setting" ? true : false}
-                    activeTintColor={COLORS.primary}
-                    icon={({color, size }) => (
-                        <Ionicons name={'ios-settings-outline'} size={size} color={color} />
-                    )}
-                    label="Đăng xuất"
-                    onPress={logOutUser}
-                /> 
+                    
                 <DrawerItem
                     focused={active == "Setting" ? true : false}
                     activeTintColor={COLORS.primary}
@@ -86,9 +81,18 @@ const DrawerContent = () => {
                     label="Thông tin cá nhân"
                     onPress={() => {
                         setActive('Setting')
-                        navigation.navigate('Setting')
+                        navigation.navigate('User')
                     }}
                 />
+                 <DrawerItem
+                    focused={active == "Setting1" ? true : false}
+                    activeTintColor={COLORS.primary}
+                    icon={({color, size }) => (
+                        <Ionicons name={'ios-settings-outline'} size={size} color={color} />
+                    )}
+                    label="Đăng xuất"
+                    onPress={logOutUser}
+                /> 
                     </>
                    
                 )
@@ -103,10 +107,22 @@ const DrawerContent = () => {
                     label="Đăng nhập"
                     onPress={() => {
                         setActive('LoginHomeScreen')
-                        navigation.navigate('LoginHomeScreen')
+                        navigation.navigate('LoginHomeScreen', {name: 'home'})
                     }}
                 />
+                    
                 }
+                   <DrawerItem
+                    focused={active == "Coin" ? true : false}
+                    activeTintColor={COLORS.primary}
+                    icon={({color, size }) => (
+                        <Ionicons name={'ios-pulse-outline'} size={size} color={color} />
+                    )}
+                    label={!isDark ? 'Chế độ bình thường' : 'Chế độ ban đêm'}
+                    onPress={() => {
+                        toggleTheme()
+                    }}
+                />
                 
             </DrawerContentScrollView>
             <Drawer.Section style={styles.bottomDrawerSection}>

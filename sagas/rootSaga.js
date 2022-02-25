@@ -4,6 +4,7 @@ import { watchGetListCategory } from './categorySaga';
 import { watchGetListDetail } from './detailSaga';
 import { watchGetListCateHome, watchGetListProductCateHome, watchGetListProductHome, watchGetListProductNewHome, watchGetListSliderHome } from './homeSaga';
 import { watchGetInfoDetailOrder } from './orderSaga';
+import { watchGetValueSearch } from './searchSaga';
 import { watchGetInfoUserSaga, watchGetListOrderUserSaga, watchGetLoginUser, watchUpdateInfoUserSaga } from './userSaga';
 
 // import * as RootNavigation from './path/to/RootNavigation.js';
@@ -24,5 +25,6 @@ export default function* rootSaga() {
         watchUpdateInfoUserSaga(),
         watchGetListOrderUserSaga(),
         watchGetInfoDetailOrder(),
+        watchGetValueSearch(),
     ]);
 }

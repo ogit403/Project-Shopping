@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'line-through'
     },
     specialDetail: {
-        // fontFamily: 'Poppins'
+        fontFamily: 'Poppins'
     },
 })
 

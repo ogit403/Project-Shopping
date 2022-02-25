@@ -1,48 +1,46 @@
-import { View, Text, Dimensions, Image } from 'react-native'
-import React from 'react'
+import { View, Text, Dimensions, Image, ScrollView } from 'react-native'
+import React, { useEffect } from 'react'
 import styles from './SearchScreenStyle'
 import { FormatPriceGold } from '../../help';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons'; 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../../contains';
+import { useSelector } from 'react-redux';
+import Product from '../../components/Product/Product';
+import { Keyboard } from 'react-native'
 const Width = Dimensions.get('window').width - 30;
 
-const listProduct= [
-  {id : 1}, {id: 2}, {id: 3},
-  {id : 4}, {id: 5}, {id: 6},
-  {id : 7}, {id: 8}, {id: 9},
-  {id : 10}, {id: 11}, {id: 12}
-]
-
 const SearchScreen = () => {
+  const keyword = useSelector(state => state.Search.keyword)
+  const loading = useSelector(state => state.Search.loadingSearch)
+  const listData = useSelector(state => state.Search.list)
+  const listFavorite = useSelector(state => state.Favorite.list);
+
+  useEffect(() => {
+    Keyboard.dismiss();
+  }, [keyword])
+
+  console.log(loading);
 
   const renderProduct = () => {
-    return listProduct.map((items, index) => {
+    return listData.map((item, index) => {
+      const isFavorite = listFavorite.find(items => items === item.id);
+      const checkFavorite = isFavorite ? true : false;
+
       return (
-        <Card key={index} style={styles.itemProduct}>
-              <View style={styles.productSale}>
-                <Text style={styles.productSaleTitle}>10%</Text>
-              </View>
-              <View style={styles.productFavorite}>
-                <Text>
-                <Ionicons name='ios-heart-outline' size={24} color={COLORS.gray} />;
-                </Text>
-              </View>
-              <View style={styles.wrapProductImage}>
-                <Image style={styles.productImage} source={require('../../assets/images/img.png')}/>
-              </View>
-              <View style={styles.wrapProductContent}>
-                  <Text numberOfLines={2} style={styles.productTitle}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea cupiditate sed, ut animi iusto hic nemo minima libero facilis magnam deserunt nisi quae repudiandae maiores aperiam ipsam dicta, sint eaque.</Text>
-                  <View style={styles.wrapPrice}>
-                    <Text style={styles.productPrice}>{FormatPriceGold(23)}</Text>
-                    <Text>
-                    <AntDesign name="shoppingcart" size={30} color={COLORS.red} />
-                    </Text>
-                  </View>
-              </View>
-               
-            </Card>
+        <Product
+          key={index}
+          image={item?.image}
+            name={item?.name}
+              price={item?.price}
+             price_sale_off={item?.price_sale_off}
+             id={item?.id}
+             checkFavorite={checkFavorite}
+             summary={item?.summary}
+             rating={item?.rating}
+             loading={loading}
+        />
       )
     })
 
@@ -51,13 +49,21 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View sytle={styles.title}>
-        <Text style={{textAlign: 'center'}}>Có 20 kết quả tìm kiếm được với từ khóa "a"</Text>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardDismissMode={!loading ? 'none' : ''}
+      >
+        <View sytle={styles.title}>
+        {
+          keyword === '' ?
+        <Text style={{textAlign: 'center'}}>Nhập tên sản phẩm bạn muốn tìm kiếm</Text>
+        : <Text style={{textAlign: 'center'}}>Tìm thấy {listData?.length} sản phẩm với từ khóa {keyword} </Text>
+        }
       </View>
       <View style={styles.listProduct}>
           {renderProduct()}
       </View>
-
+      </ScrollView>
     </View>
   )
 }

@@ -7,6 +7,8 @@ const COLORS = {
     gray    : '#aeaeae',
     red     : '#e52025',
     yellow  : '#DDDF4E',
+    login   : '#fbfbfb',
+    input: '#011C4A'
 }
 
 const FONTSIZE = {

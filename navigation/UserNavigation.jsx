@@ -14,14 +14,17 @@ import NotifyScreen from '../screens/NotifyScreen/NotifyScreen';
 const UserStack = createStackNavigator();
 
 const UserStackScreen = (props) => {
+  console.log('vao user')
     return (
       <UserStack.Navigator
         screenOptions={{
           headerStyle : {
             backgroundColor : COLORS.white
           },
-          headerTintColor : COLORS.main
+          headerTintColor : COLORS.main,
         }}
+        initialRouteName="InfoScreen"
+        
       >
         <UserStack.Screen name="InfoScreen" component={RouterUser} />
         <UserStack.Screen name="OrderScreen" component={OrderScreen} options={{}}/>

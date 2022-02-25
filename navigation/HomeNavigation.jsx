@@ -30,7 +30,7 @@ const HomeStackScreen = (props) => {
             height: 100
           },
           headerTitleStyle: {
-            // fontFamily: 'Poppins'
+            fontFamily: 'Poppins'
           },
           headerTintColor : COLORS.main,
           headerTitleAlign: 'center'

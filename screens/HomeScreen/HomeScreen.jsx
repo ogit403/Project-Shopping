@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Button, FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import CategoryItem from '../../components/CategoryItem/CategoryItem';
 import CategorySpecial from '../../components/CategorySpecial/CategorySpecial';
@@ -11,6 +11,8 @@ import styles from './HomeScreenStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { getInfoUser } from '../../store/slices/userSlice';
+import { Video, AVPlaybackStatus } from 'expo-av';
+
 const HomeScreen = () => {
   const dispatch = useDispatch(); 
   const listCate = useSelector(state => state.Home.cate)
@@ -44,7 +46,7 @@ const HomeScreen = () => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     }
     setHeader();
-  }, [])
+  }, [navigation])
 
  
    const handleChangeCate = (id) => {
@@ -88,12 +90,30 @@ const HomeScreen = () => {
     
   }
 
+  const video = React.useRef(null);
+  const [status, setStatus] = React.useState({});
+
   return (
     <View style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
         <Slider/>
+        
+        <View style={styles.container}>
+      {/* <Video
+        ref={video}
+        style={{width: '100%', height: 300}}
+        source={{
+          uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+        }}
+        useNativeControls
+        resizeMode="contain"
+        isLooping
+        onPlaybackStatusUpdate={status => setStatus(() => status)}
+      /> */}
+      
+      </View>
 
       <View style={styles.category}>
         <FlatList
@@ -110,7 +130,14 @@ const HomeScreen = () => {
       <View style={styles.listProduct}>
           {renderProduct()}
       </View>
-
+      {/* <View style={styles.buttons}>
+        <Button
+          title={status.isPlaying ? 'Pause' : 'Play'}
+          onPress={() =>
+            status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
+          }
+        />
+      </View> */}
       </ScrollView>
       
     </View>

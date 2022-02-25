@@ -6,11 +6,11 @@ import * as RootNavigation from '../navigation/rootNavigation';
 function* postListCart(action) {
     const {res, err} = yield call(() => CartService.post(action.payload));
         
-    // console.log('res', res)
+    console.log('res', res)
 
     if(res.status === 201) {
         yield put(postOrderSuccess(res.data))
-        RootNavigation.navigate('HomeMainScreen');
+   
     }
     else if(res.data.status === 0) {
         // console.log('error cart')

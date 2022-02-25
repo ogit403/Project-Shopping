@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import styles from './OrderScreenStyle'
 import { Searchbar } from 'react-native-paper';
 import { FormatPriceGold } from '../../help';
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getListOrderUser } from '../../store/slices/userSlice';
 import DetailOrderScreen from '../DetailOrderScren/DetailOrderScreen';
 import { searchDetail } from '../../store/slices/orderSlice';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
  
 const labels = ["Cart","Delivery Address","Order Summary"];
 const customStyles = {
@@ -38,28 +39,60 @@ const customStyles = {
 
 const OrderScreen = () => {
   const dispatch = useDispatch();
+  const [key, setKey] = useState('');
   const listOrder = useSelector(state => state.User.listOrder);
   const detail = useSelector(state => state.Order.detail);
-  // console.log(detail)
+  console.log(detail)
+  const isLogin = useSelector(state => state.User.isLogin)
+  const navigation = useNavigation();
+  const isFocused = useIsFocused();
+    const [count, setCount] = useState(0);
 
-  useEffect(() => {
+    useLayoutEffect(() => {
+    setCount(count => count + 1);
+    if(isFocused){
+      if(!isLogin) {
+        if(count >= 3) {
+          navigation.navigate('HomeScreen')
+          navigation.pop();
+        }
+        else {
+          navigation.navigate('LoginHomeScreen')
+        }
+      }
+    }
+      else
       dispatch(getListOrderUser())
-  }, [])
+  }, [isFocused])
 
-  const searchOrder = () => {
-    dispatch(searchDetail(40));
+  const onSubmit = () => {
+    dispatch(searchDetail(key));
   }
 
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-      <Text onPress={searchOrder} style={styles.search}>Nhập vào đơn hàng bạn muốn tìm:</Text>
+      <Text style={styles.search}>Nhập vào đơn hàng bạn muốn tìm:</Text>
+      <View style={{paddingBottom: 10}}>
        <Searchbar
           placeholder="Nhập tên sản phẩm..."
           style={styles.input}
+          onChangeText={(value) => setKey(value)}
+          onSubmitEditing={onSubmit}
           />
+      </View>
+          
+          {Object.keys(detail).length ? 
+          (
+            <>
+            <View style={{alignItems: 'center'}}>
           <Text style={styles.titleOrder}>Chi tiết đơn hàng</Text>
+          </View>
           <DetailOrderScreen/>
+            </>
+          )
+          : <></>}
+          
 
       </ScrollView>
     </View>

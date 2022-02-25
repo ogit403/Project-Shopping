@@ -23,10 +23,10 @@ const styles = StyleSheet.create({
     specialTitle: {
         fontWeight: 'bold',
         fontSize: 16,
-        // fontFamily: 'Poppins'
+        fontFamily: 'Poppins'
     },
     specialDetail: {
-        // fontFamily: 'Poppins'
+        fontFamily: 'Poppins'
     },
     specialRate: {
         paddingVertical: 5,

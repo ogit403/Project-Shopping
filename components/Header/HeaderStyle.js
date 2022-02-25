@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     title: {
         color: COLORS.main,
         fontSize: 20,
-        // fontFamily: 'Poppins',
+        fontFamily: 'Poppins',
         // fontWeight: 'bold'
     },
     bottom: {

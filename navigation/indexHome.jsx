@@ -53,7 +53,7 @@ const MyTabsHome = () => {
                 color : COLORS.white
             },
             headerShown : false,
-            // initialRouteName: "SearchScreen"
+            initialRouteName: "Home"
             })}
         >
             <TabHome.Screen name="Home"     component={HomeStackScreen} options={{title : 'Trang chủ',

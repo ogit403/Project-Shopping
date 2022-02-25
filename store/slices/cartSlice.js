@@ -6,6 +6,8 @@ export const cartSlice = createSlice({
   initialState : {
     list: [],
     loadingCart: false,
+    checkOrder: false,
+    order: {}
   },
   reducers: {
     addItemCart: (state, action) => {
@@ -43,17 +45,23 @@ export const cartSlice = createSlice({
     },
     postOrderSuccess: (state, action) => {
       state.loadingCart = false;
-      showMessage({
-        message: "Tạo đơn hàng thành công, vui lòng vào danh sách đơn hàng để kiểm tra",
-            type: "success",
-            duration: 4000
-      })
+      state.order = action.payload;
+      state.list = [];
+      state.checkOrder = true;
+      // showMessage({
+      //   message: "Tạo đơn hàng thành công, vui lòng vào danh sách đơn hàng để kiểm tra",
+      //       type: "success",
+      //       duration: 4000
+      // })
     },
+    resetCheckOrder: (state, action) => {
+      state.checkOrder = false;
+    }
   },
   
 })
 
 // Action creators are generated for each case reducer function
-export const {addItemCart, removeItemCart, countItemCart, postOrder, postOrderSuccess} = cartSlice.actions
+export const {addItemCart, removeItemCart, countItemCart, postOrder, postOrderSuccess, resetCheckOrder} = cartSlice.actions
 
 export default cartSlice.reducer

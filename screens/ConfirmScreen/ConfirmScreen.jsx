@@ -1,15 +1,62 @@
-import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductConfirm from '../../components/ProductConfirm/ProductConfirm';
-import { postOrder } from '../../store/slices/cartSlice';
+import { postOrder, resetCheckOrder } from '../../store/slices/cartSlice';
 import styles from './ConfirmScreenStyle';
-
-
+import { Modal, Portal, Button, Provider } from 'react-native-paper';
+import { getInfoUser } from '../../store/slices/userSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';  
 const ConfirmScreen = () => {
   const listData = useSelector(state => state.Cart.list);
+  const isLogin = useSelector(state => state.User.isLogin)
+  const navigation = useNavigation();
   const user = useSelector(state => state.User.user)
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+  const [count, setCount] = useState(0);
+  const checkOrder = useSelector(state => state.Cart.checkOrder);
+  const DetailOrder = useSelector(state => state.Cart.order);
+  // const [visible, setVisible] = useState(checkOrder);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => {
+    dispatch(resetCheckOrder())
+  }
+  useEffect(() => {
+    dispatch(getInfoUser());
+  },[])
+
+  useEffect(() => {
+    const setHeader = async () => {
+      let token = await AsyncStorage.getItem('token');
+      // console.log('axios', token)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    }
+    setHeader();
+  }, [navigation])
+
+
+  useEffect(() => {
+    dispatch(resetCheckOrder())
+  }, [])
+
+  useLayoutEffect(() => {
+    setCount(count => count + 1);
+    if(isFocused){
+      if(!isLogin) {
+        if(count >= 3) {
+          navigation.navigate('HomeScreen')
+          navigation.pop();
+        }
+        else {
+          navigation.navigate('LoginHomeScreen')
+        }
+      }
+    }
+  }, [isFocused])
 
   const postOrderFinish = () => {
     let newOrder = [];
@@ -21,6 +68,7 @@ const ConfirmScreen = () => {
     })
     dispatch(postOrder(newOrder))
   }
+
 
   const renderListData = () => {
     if(listData.length === 0)
@@ -43,9 +91,34 @@ const ConfirmScreen = () => {
     })
   }
 
+  const ChangeScreen = (name) => {
+    navigation.navigate(name)
+  }
 
   return (
     <View style={styles.container}>
+      <Portal>
+       <Modal visible={checkOrder} onDismiss={hideModal} contentContainerStyle={styles.modal}>
+            <Text style={styles.titleModal}>THÔNG BÁO</Text>
+            <View style={styles.wrapImageModal}>
+              <Image style={styles.imageModal} source={require('../../assets/images/checked.png')} />
+            </View>
+            <Text style={styles.successModal}>Đặt hàng thành công</Text>
+            <View style={styles.orderModal}><Text>Mã số đơn hàng của bạn </Text><Text style={styles.idOrder}>#{DetailOrder?.id}</Text></View>
+            <View style={styles.wrapButtonModal}>
+              <TouchableOpacity onPress={() => ChangeScreen('HomeMainScreen')}>
+              <Text style={styles.continueModal}>Tiếp tục mua hàng</Text>
+
+              </TouchableOpacity>
+              {/* <TouchableOpacity onPress={() => ChangeScreen('OrderScreen')}>
+
+              <Text style={styles.detailModal}>Chi tiết đơn hàng</Text>
+              </TouchableOpacity> */}
+            </View>
+        </Modal>
+        
+      </Portal>
+
       <ScrollView>
       {renderListData()}
 

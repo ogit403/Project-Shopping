@@ -12,13 +12,13 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: 'bold',
-        // fontFamily: 'Poppins',
+        fontFamily: 'Poppins',
         marginTop: 20
     },
     titlePrice: {
         fontSize: 18,
         fontWeight: 'bold',
-        // fontFamily: 'Poppins',
+        fontFamily: 'Poppins',
         marginTop: 30
     },
     wrapChip: {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     titleCategory: {
         textAlign: 'center',
         color: COLORS.text,
-        // fontFamily: 'Poppins',
+        fontFamily: 'Poppins',
         paddingTop: 4,
     },
     buttonBottom: {

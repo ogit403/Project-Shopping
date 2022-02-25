@@ -15,6 +15,7 @@ import LoginStackScreen from './LoginNagivation';
 import OrderStackScreen from './OrderNavigation';
 import CartStackScreen from './CartNavigation';
 import ConfirmCartStackScreen from './ConfirmCartNavigation';
+import SearchStackScreen from './SearchNavigation';
 
 const MainStack = createStackNavigator();
 
@@ -38,8 +39,13 @@ const MainStackScreen = (props) => {
         }}/>
         <MainStack.Screen name="DetailHomeScreen" component={DetailScreen} options={({route}) => ({title: route.params.title})} />
         <MainStack.Screen name="CategoryHomeScreen" component={CategoryStackScreen} />
-        <MainStack.Screen name="LoginHomeScreen" component={LoginStackScreen} />
+        <MainStack.Screen name="LoginHomeScreen" component={LoginStackScreen} 
+          options={{
+            header: () => {return <></>}
+          }}
+        />
         <MainStack.Screen name="CartHomeScreen" component={CartStackScreen} options={{header: () => {return <></>}}} />
+        <MainStack.Screen name="SearchHomeScreen" component={SearchStackScreen} options={{header: () => {return <></>}}} />
         <MainStack.Screen name="ConfirmHomeScreen" component={ConfirmCartStackScreen} options={{title: 'Tiến hành đặt hàng'}} />
     </MainStack.Navigator>
     );

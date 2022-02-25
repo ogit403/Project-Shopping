@@ -7,14 +7,31 @@ import { getCategory, getCategorySuccess } from '../store/slices/categorySlice';
 import { getDetail, getDetailSuccess } from '../store/slices/detailSlice';
 import { getInfoUser, getInfoUserSuccess, getListOrderUser, getListOrderUserSuccess, loginUser, loginUserSuccess, updateInfoUser, updateInfoUserSuccess } from '../store/slices/userSlice';
 import * as RootNavigation from '../navigation/rootNavigation';
+import { showMessage } from 'react-native-flash-message';
 
 function* getLoginUser(action) {
     // console.log(action)
-    const {res, err} = yield call(() => UserService.login(action.payload));
+    const {res, err} = yield call(() => UserService.login(action.payload.data));
+    // action.payload.navigation.goBack();
     if(res?.status === 200) {
         // console.log('thanh cong')
         yield put(loginUserSuccess(res.data))
-        RootNavigation.navigate('HomeMainScreen');
+        action.payload.navigation.goBack();
+        // if(action.payload.name === 'info') {
+
+        //     RootNavigation.navigate('LoginHomeScreen');
+        // }
+        // else if(action.payload.name === 'order') {
+        //     RootNavigation.navigate('OrderScreen');
+        // }
+        // else if(action.payload.name === 'confirm') {
+        //     RootNavigation.navigate('ConfirmHomeScreen');
+        // }
+        // else if(action.payload.name === 'notify') {
+        //     RootNavigation.navigate('NotifyScreen');
+        // }
+        // else
+        // RootNavigation.navigate('HomeMainScreen');
     }
     else{
         console.log('error slider')
@@ -53,6 +70,11 @@ function* updateInfoUserSaga(action) {
             if(res.status === 200) {
                 yield put(getInfoUserSuccess(res.data))
                 yield put(updateInfoUserSuccess(res1.data))
+                showMessage({
+                    message: 'Cập nhật thông tin thành công',
+                    type: 'success',
+                    duration: 3000
+                })
             }
             else  {
                 console.log('error get')
